@@ -1,0 +1,905 @@
+################################################ 완주하지 못한 선수 ################################################
+
+def solution(participant, completion):
+    # participant>completion 이므로 임의의 기호(sort 시 맨마지막)을 붙여준다
+    completion.append('{')
+
+    participant.sort()
+    completion.sort()
+
+    for i, j in zip(participant, completion):
+        if i != j:
+            return i
+solution(["susie","alan","rory","jack","bob"], ["bob","susie","alan","jack"])
+
+################################################ 수포자의 모의고사 ################################################
+
+#cycle: 둘 모두 함께 계산되어지는 '오른쪽' 리스트에 따라 한정지어지는 특성을 지님
+# import numpy as np
+# scores=[1,5,3]
+# p=np.argsort(scores)[::-1]  # descending order로 했을 때([::-1]), index 값 가져오기 (np.argsort)
+# print(p+1)
+
+from itertools import cycle
+import numpy as np
+def solution_supo(answers):
+    winner = []
+    pattern_supo_1 = [1 ,2, 3, 4, 5]
+    pattern_supo_2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    pattern_supo_3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    score_supo=[0,0,0]
+
+    for supo_1, supo_2, supo_3, answer in zip(cycle(pattern_supo_1), cycle(pattern_supo_2), cycle(pattern_supo_3), answers):
+        if supo_1==answer: score_supo[0]+=1
+        if supo_2==answer: score_supo[1]+=1
+        if supo_3==answer: score_supo[2]+=1
+
+    for i, score in enumerate(score_supo):
+        if score==max(score_supo):
+            winner.append(i+1)
+
+    # 똑같이 winner만 불러오는,
+    #    for i in range(0,3):      # score idx 비교를 위해서
+    #    if max(score_supo)==score_supo[i]:
+    #        winner.append(i+1)
+    return winner
+    # 수포자 순서대로 나타내는 (descending order로)
+    # p = np.argsort(score_supo)[::-1]
+    # return p + 1
+
+solution_supo([1,3,1,4,5])
+
+################################################ K번째 수 ################################################
+
+def out_k(array, commands):
+    answer = []
+    for i in range(len(commands)):
+        tmp = array[commands[i][0]-1:commands[i][1]]
+        tmp.sort()
+        answer.append(tmp[commands[i][2]-1])
+    return answer
+
+out_k([1,5,2,6,3,7,4], [[2,5,3], [4,4,1], [1,7,3]])
+
+# 향후: map() 이용해보기  -- for문을 대체한다
+
+################################################ 체육복 ################################################
+
+def pt_solution(n, lost, reserve):
+    lost_new = [l for l in lost if l not in reserve]
+    reserve_new = [r for r in reserve if r not in lost]
+    answer = n - len(lost_new)
+    for r in reserve_new:
+        f = r - 1
+        b = r + 1
+        if f in lost_new:
+            lost_new.remove(f)
+        elif b in lost_new:                    # elif: 그렇지 않고
+            lost_new.remove(b)
+    return n - len(lost_new)
+
+pt_solution(5, [2,4], [3])
+
+################################################ 2016년 ################################################
+
+import datetime
+def sol_2016_cal(a,b):
+    day = ['FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED', 'THU']
+    total = (datetime.date(2016, a, b) - datetime.date(2016, 1, 1)).days
+    w = total%7
+    return day[w]
+
+sol_2016_cal(7,11)
+
+################################################ 가운데 글자 가져오기 ################################################
+
+def solution_mid_word(s):
+    list(s)
+    if len(s)%2 == 1:
+        return s[(len(s)+1)//2-1]
+    elif len(s)%2 == 0:
+        return s[len(s)//2-1:len(s)//2+1]
+
+    # t = len(s)//2
+    # return s[t] if t%2 == 1 else s[t-1:t+1]
+
+solution_mid_word("abde")
+
+################################################ 같은 숫자는 싫어 ################################################
+
+# answer[-1]말고 answer[-1:]을 해준 이유 > answer가 빈 리스트여도 오류가 없게 됨
+# i가 아닌 [i]인 이유 > answer[-1:] 자체가 리스트 형식이므로, 비교 대상도 리스트 형식으로
+def unique_array(arr):
+    answer = []
+    for i in arr:
+        if answer[-1:] == [i]:
+            continue        # 다음 i로 바로 적용하라
+        answer.append(i)    # else를 써주지 않는다 (여전히 if not의 의미를 가짐)
+    return answer
+
+unique_array([4,4,4,3,3])
+
+################################################ 나누어 떨어지는 숫자 배열 ################################################
+
+def sol_divisor(arr, divisor):
+    answer = []
+    for r in arr:
+        if r%divisor == 0:
+            answer.append(r)
+            answer.sort()
+    if len(answer) == 0:      # '해당원소가 없다면'을 if 조건 실행 이후의 len(answer)==0으로 표현함
+        return [-1]
+    return answer
+
+
+sol_divisor([5, 9, 7, 10], 6)
+
+################################################ 두 정수의 합 ################################################
+def sum_between_integer(a,b):
+    if a == b:
+        return a
+    elif a < b:
+        return sum(i for i in range(a, b+1))
+    else:
+        return sum(i for i in range(b, a+1))
+    # if a > b:
+    #     a,b = b,a                       # 두 변수의 값을 바꿔라 ( a>b인 경우에만 )
+    # return sum(list(range(a,b+1)))
+sum_between_integer(-1,1)
+
+################################################ 문자열 내 마음대로 정렬하기 ################################################
+
+def str_n_solution(strings, n):
+    return sorted(sorted(strings), key=lambda x:x[n])      # 먼저 strings를 정렬 > 그 다음 n번째 단어에 맞춰서 다시 재정렬
+
+
+str_n_solution(["abzcd","cdzab","abzfg","abzaa","abzbb","bbzaa"], 2)
+
+################################################ 문자열 내 p와 y의 개수 ################################################
+
+def count_py(s):
+    # s.lower()
+    # if s.count("p") == s.count("y"):
+    #     return True
+    # return False
+    return s.lower().count('p') == s.lower().count('y')  # == 자체 결과값이 boolean
+
+count_py("Pyy")
+
+################################################ 문자열 내림차순으로 배열하기 ################################################
+
+def desc_order(s):
+    U = []
+    L = []
+    for letter in s:
+        if letter.isupper() == True:
+            U.append(letter)
+            U.sort(reverse=True)
+        else:
+            L.append(letter)
+            L.sort(reverse=True)
+    return ''.join(L+U)
+
+
+desc_order("rgbnDDAcC")
+
+################################################ 문자열 다루기 기본 ################################################
+
+def check_char(s):
+    return s.isdigit() and (len(s)==4 or len(s)==6)   ## True & True = True
+                                                      ## True & False = False (반대도 마찬가지)
+                                                      ## False & False = False
+
+check_char("12345678")
+
+################################################ 서울에서 김서방 찾기 #############################################
+# "I ate {0} apples. so I was sick for {day} days.".format(10, day=3)   0번째임을 문자에 넣어줬기 때문에, 처음은 그냥 10
+# 'I ate 10 apples. so I was sick for 3 days.'
+def kim_seoul(s):
+    return "김서방은 " + str(s.index("Kim")) + "에 있다"
+
+    # kimIdx = s.index('Kim')
+    # return "김서방은 {}에 있다".format(kimIdx)
+
+
+kim_seoul(["Jane","hello","world","py","Julie","Kim","jen"])
+
+################################################ 소수 찾기 ################################################
+
+def is_prime(i):
+    num = 0
+    for j in range(1,i+1):
+        if i%j == 0:
+            num += 1
+    if num ==2:
+        return True
+    return False
+
+is_prime(1)
+
+def howmany_prime(n):
+    return [is_prime(x) for x in range(1,n+1)].count(True)
+howmany_prime(50)
+
+################################################ 수박수박수? ###############################################
+
+def watermel_sol(n):
+    return (str("수박"*n)[:n])
+
+watermel_sol(7)
+################################################ 문자열 정수로 바꾸기 #########################################
+
+def string_to_num(s):
+    return int(s)
+
+################################################ 시저 암호 #################################################
+
+import string
+
+def ceasor(s,n):
+    alphabet_lower = list(string.ascii_lowercase)
+    alphabet_upper = list(string.ascii_uppercase)
+    s = list(s)
+    for i, char in enumerate(s):
+        if char in alphabet_lower:
+            position = (alphabet_lower.index(char)+n) % 26    # x,y,z같은 애들 때문에 (%26)
+            s[i] = alphabet_lower[position]
+        elif char in alphabet_upper:
+            position = (alphabet_upper.index(char)+n) % 26
+            s[i] = alphabet_upper[position]
+        else:
+            pass
+    return ''.join(s)
+
+ceasor("ABz",3)
+
+################################################ 약수의 합 #################################################
+
+def sum_divisor(n):
+    div = []
+    for i in range(1,n+1):
+        if n%i == 0:
+            div.append(i)
+    return sum(div)
+
+
+sum_divisor(41)
+
+################################################ 이상한 문자 만들기 #################################################
+
+def solution(s):
+    # answer = ""
+    # i = 0
+    # for char in s:
+    #     if char == " ":
+    #         answer +=  char
+    #         i = 0
+    #         continue
+    #     answer += char.lower() if i%2 else char.upper()
+    #     i+=1
+    # return answer
+    return " ".join(["".join([c.lower() if i % 2 else c.upper() for i, c in enumerate(w)])
+    for w in s.split(' ')])
+
+solution("try hello world")
+
+################################################ 자릿수 더하기 #################################################
+
+def pos_sum(n):
+    new_n = [int(x) for x in str(n)]     # n 자체가 integer // 먼저 str()해줘서 개별숫자 인식되게 한 다음,
+    return sum(new_n)                    # sum 함수가 먹히도록 list화([ ]) 시켜줌
+
+
+pos_sum(1999)
+
+################################################ 자연수 뒤집어 배열로 만들기 #################################################
+
+def reverse_list(n):
+    new_n = [int(x) for x in str(n)]
+    new_n.reverse()
+    return new_n
+    # return [int(i) for i in str(n)][::-1]
+
+reverse_list(93847)
+
+################################################ 정수 내림차순으로 배치하기 #################################################
+
+def desc_order(n):
+    return int(''.join(sorted(str(n), reverse=True)))  # sorted를 쓰기위해선 iterable하게 문자로 변경 필요
+
+desc_order(118372)
+
+################################################ 정수 제곱근 판별 #################################################
+
+def nextsquare(n):
+    sqrt = pow(n, 0.5)   # pow(n,i): n의 i승
+    return int(pow(sqrt+1, 2)) if sqrt == int(sqrt) else -1
+
+nextsquare(121)
+
+################################################ 제일 작은 수 제거하기 #################################################
+
+def smallest(n):
+    n_new = sorted(n)
+    return n_new[0]
+
+def remove_smallest(n):
+    if len(n)>1:
+        n.remove(smallest(n))
+        return n
+    return [-1]
+# min() 사용
+# def rr(n):
+#     n.remove(min(n))
+#     return n
+remove_smallest([10,3,2,1])
+
+################################################ 짝수와 홀수 #################################################
+
+def even_odd(num):
+    if num%2 == 0:
+        return "Even"
+    return "Odd"
+
+even_odd(0)
+
+################################################ 최대공약수와 최소공배수 #################################################
+
+# 필요는 없으나, 참고용
+# def div(n):
+#     div = []
+#     for i in range(1,n+1):
+#         if n%i == 0:
+#             div.append(i)
+#         continue
+#     return div
+
+from math import gcd
+
+def gcdlcm(a,b):
+    return [gcd(a,b),int(a*b/gcd(a,b))]
+
+gcdlcm(2,5)
+
+################################################ 콜라츠 추측 #################################################
+
+def collatz(num):
+    i = 0
+    while num>1:
+        num = (num*3)+1 if num%2 else num/2
+        i += 1
+    return i if i<500 else -1
+
+collatz(16)
+
+################################################ 평균 구하기 #################################################
+
+def avg_sol(arr):
+    return sum(arr)/len(arr)
+
+avg_sol([-5,5])
+
+################################################ 하샤드의 수 #################################################
+
+def harshad(arr):
+    new_arr = [int(x) for x in str(arr)]
+    return arr%sum(new_arr)==0
+# return arr % sum(int(x) for x in str(arr)) == 0 > 답 자체가 true/false
+
+harshad(13)
+
+################################################ 핸드폰 번호 가리기 #################################################
+
+def phone_del(pn):
+    return '*'*(len(pn)-4)+pn[-4:]
+
+phone_del("027778888")
+
+################################################ 행렬의 덧셈 #################################################
+
+def sumMatrix(A, B):
+    answer = [[c+d for c,d in zip(a,b)] for a,b in zip(A,B)]
+    return answer
+
+    # answer = [[] for j in range(len(A))]
+    # for i in range(len(A)):
+    #     for x in range(len(A[i])):
+    #         answer[i].append(A[i][x] + B[i][x])
+    # return answer
+
+sumMatrix([[1,2],[2,3]], [[3,4],[5,6]])
+
+################################################ x만큼 간격이있는 n개의 숫자 #################################################
+
+def step_n(x,n):
+    answer = []
+    for i in range(x, x*(n+1), x):
+        answer.append(i)
+    return answer
+
+    # ans = [i for i in range(x,x*(n+1),x)]
+    # return ans
+step_n(-4,2)
+
+################################################ 직사각형 별찍기 #################################################
+
+print(("*" * a +"\n")*b)
+
+################################################ 예산 #################################################
+
+def budget(d, b):
+    answer = 0
+    sum = 0
+    d.sort()
+    for i in range(0,len(d)):
+        sum += d[i]
+        if sum > b:
+            break
+        else:
+            answer += 1
+    return answer
+
+budget([2,2,3,3],10)
+
+################################################ 주식가격 #################################################
+
+def stock_fall(prices):
+    answer = []
+    for i in range(0, len(prices)):
+        cnt = 0
+        for j in range(i+1, len(prices)):
+            if prices[i] <= prices[j]:
+                cnt += 1
+            else:
+                cnt += 1
+                break
+        answer.append(cnt)
+    return answer
+
+stock_fall([1, 2, 3, 2, 3])
+
+################################################ 스킬트리 #################################################
+
+def skill_tree(skill, skill_trees):
+    answer = 0
+    for str in skill_trees:
+        temp = ""                     #list에 속한 문자만 남기고, 다 제거
+        # list = []
+        for s in str:
+            if skill.find(s) != -1:   #skill 안에 없다면, -1을 뱉어냄
+                temp += s
+        # list.append(temp)
+   # return list                      이렇게 하면, skill에 속한 문자들만 걸러낸 skill_trees 리스트 확인 가능
+        if skill[:len(temp)] == temp:
+            answer +=1
+        else:
+            pass
+    return answer
+
+skill_tree("CBD", ["CBEFGD", "CPOB", "CPH", "BDQS"])
+
+################################################ 탑 #################################################
+
+# qu : FIFO (a=[]일 때, a.pop(0))
+# stack : LIFO (a.pop())
+def tower_solution(h):
+    answer = [0]*len(h)
+    for i in range(len(h)-1,0,-1):
+        for j in range(i-1,-1,-1):
+            if h[i] < h[j]:
+                answer[i] += j+1
+                break    # 더 전에 index에서도 큰 값이 있더라도, 한번 발견했다하면 break 한다
+    return answer
+tower_solution([3,9,9,3,5,7,2])
+
+################################################ 124나라의 숫자 #################################################
+
+# 삼진법 개념
+def num_world(n):
+    answer = ""
+    while n > 0:
+
+
+
+print(divmod(53,7))
+
+################################################ 기능개발 #################################################
+from collections import Counter
+# import math
+def func_up(prog, speed):
+    answer = []
+    ans_list = []
+    for i in range(len(prog)):
+        if (100-prog[i])%speed[i] == 0:
+            ans_list.append((100-prog[i])//speed[i])
+        else:
+            ans_list.append((100-prog[i])//speed[i] + 1)
+    # progresses = [math.ceil((100 - a) / b) for a, b in zip(progresses, speeds)]
+    # >> 이것이 바로 function을 아는 힘 math.ceil이 첫번째 for문을 한 줄로 그냥 실행시켜버림
+    for ii in range(1,len(ans_list)):
+        if ans_list[ii]<ans_list[ii-1]:
+            ans_list[ii] = ans_list[ii-1]
+        else:
+            pass
+    for index in Counter(ans_list).values():
+        answer.append(index)
+    return answer
+
+func_up([93,30,55],[1,30,5])
+
+################################################ 프린터 #################################################
+
+def solution(priorities, location):
+    pi_list = [(p,i) for i,p in enumerate(priorities)]
+    waiting_list = []
+
+    while pi_list:
+        pi = pi_list.pop(0)    # 그냥 pi_list.pop() 하면 마지막부터 빠져나옴 (스택)
+        priority = pi[0]   # 첫번째 뺴낸 값에서의 우선순위
+        ram_p_list = [priority for priority, idx in pi_list]
+        if ram_p_list:
+            max_p = max(ram_p_list)
+
+            if priority >= max_p:
+                waiting_list.append(pi)
+            else:
+                pi_list.append(pi)
+
+    for index, item in enumerate(waiting_list):
+        if item[1] == location:
+            return index+1
+solution([2, 1, 3, 2],3)
+
+# a = [(1,0),(2,1),(3,2)]
+# for i,item in enumerate(a):
+#     print(i,item)
+# pi = a.pop(0)
+# print(pi)
+# priority = pi[0]
+# print(priority)
+# p_list = [priority for priority, idx in a]
+# print(p_list)
+
+################################################ 쇠막대기 #################################################
+
+# (일때마다, 스택에 하나씩 추가 = append
+# 그 사이에 레이저가 있다면, 스택에 속한 막대기 개수만큼 증가됨
+# )로 끝날때마다 끝 꼬리 하나 +1 추가 및 stack.pop해서 없애주기
+
+def solution(arrangement):
+    stack = []
+    answer = 0
+    arrangement = arrangement.replace("()","L")
+    for idx, c in enumerate(arrangement):
+        if c == "(":
+            stack.append("(")
+            answer += 1
+        elif c == ")":
+            stack.pop()
+        else:
+            answer += len(stack)
+    return answer
+# 내 코드 > 틀림 (else 쪽)
+    # for i in arrangement:
+    #     if i == "(":
+    #         stack.append(i)
+    #         answer += 1
+    #     elif i == "L":
+    #         answer += len(stack)
+    #     else:                  # i = ")"
+    #         stack.pop(i)
+    #         answer += 1
+    # return answer
+solution("()(((()())(())()))(())")
+
+################################################ 더맵게 #################################################
+# sort()에는 시간이 많이 소요된다. 저절로 오름차순 배열을 해주는 function은 없을까? >> heapq
+
+def solution(scoville, K):
+    import heapq
+    data = []
+    for s in scoville:
+        heapq.heappush(data, s)      # scoville 리스트가 오름차순이 아닌, 뒤죽박죽일 경우를 위해 먼저 heapq
+    cnt = 0
+    while data[0] < K:
+        try:
+            heapq.heappush(data, (heapq.heappop(data)+(heapq.heappop(data)*2)))
+            cnt +=1
+        except IndexError:        # data에 원소가 하나뿐일 때는, 두번째 값을 못구하니까 IndexError 발생
+            return -1
+    return cnt
+
+
+solution([1,2,3], 20)
+
+# import heapq
+#
+# a = [1,2,3,4,5]
+#
+# print(heapq.heappop(a)-heapq.heappop(a))
+# sm = heapq.heappop(a)
+# print(a)
+# print(heapq.heappop(a))
+# print(heapq.heappop(a))
+#
+# heapq.nsmallest(2,a)
+
+################################################ 가장 큰 수 #################################################
+
+# 오류 케이스 : 예를들어, numbers = [12,121]
+# def solution(numbers):
+#     nums = list(map(str, numbers))                       # int에 대해서는 len() 불가하므로, str화 시킴
+#     #  nums = [str(n) for n in numbers]
+#     longest = max([len(n) for n in nums], default = 0)   # 원소 중, 가장 긴 길이
+#     nums.sort(key = lambda x: str(x*longest)[:longest], reverse = True)
+#     return ''.join(nums)
+def solution(numbers):
+    numbers = list(map(str, numbers))
+    numbers.sort(key=lambda x: x*3, reverse=True)
+    return str(int(''.join(numbers)))            # 굳이 이미 str인것을 다시 str(int 하는 이유는, "0000" 같은 케이스를 "0"으로 output 하기 위함
+
+solution([3, 30, 34, 5, 9])
+
+################################################ 큰 수 만들기 #################################################
+
+def solution(number, K):
+    import itertools
+    answer = ""
+    number_list = [i for i in number]
+    answer += max(i for i in list(map(''.join, itertools.combinations(number_list, len(number_list)-K))))
+    return answer
+
+solution("4177252841", 4)
+
+
+# 왜 안되는지 모르겠음......
+# def solution(number, k):
+#     answer = ""
+#     while len(number)>k:
+#         mm = 0
+#         for ki in range(k+1, len(number)):
+#             M = max(i for i in number[mm:-(len(number)-ki)])
+#             answer += M
+#             mm = answer.index(M) + 1
+#     if len(answer) < len(number) - k:
+#         answer += number[-1]
+#     else:
+#         pass
+#     return answer
+
+## 드디어!! 온전히 스스로 내 힘으로!!
+def solution(number, k):
+    answer = ""
+    need = len(number)-k
+    m = -1
+    for i in reversed(range(need)):
+        for idx in range(m+1, len(number)-i):
+            if max(number[m+1:len(number)-i]) == number[idx]:
+                answer += number[idx]
+                m = idx
+                break
+    return answer
+
+solution("1924", 2)
+
+################################################ 조이스틱 #################################################
+
+# 최소의 return 값을 찾는다는 건 결국, name -> 모두 AAAA..로 돌리는 데에 걸린 min(횟수)를 구하면 됨
+def change_alphabet(name):
+    import string
+    a_u = list(string.ascii_uppercase)
+    fa = a_u[0:14]
+    ba = a_u[14:]
+    cnt = 0
+    for char in name:
+        if char in fa:
+            cnt += fa.index(char)-fa.index('A')
+        else:
+            cnt += ba.index('Z')-ba.index(char)+1
+    return cnt
+solution("JEROEN")
+
+
+
+def solution(name):
+    answer = 0
+
+    move_list = []
+    for i in range(0, len(name)):
+        move = min(ord(name[i]) - ord('A'), ord('Z') - ord(name[i]) + 1)
+        move_list.append(move)
+
+    left_end_idx = 0
+    right_end_idx = 0
+    for i in range(1, len(move_list)):
+        if move_list[i] > 0:
+            right_end_idx = i
+            if left_end_idx == 0:
+                left_end_idx = i
+
+    answer = min(right_end_idx, len(move_list)-left_end_idx)
+    for move in move_list:
+        if move >0 :
+            answer += move
+
+    return answer
+solution("JAN")
+
+################################################ 소수 찾기 #################################################
+
+# 테스트 케이스 통과 안되는 것 존재
+def is_prime(i):
+    num = 0
+    for j in range(1,i+1):
+        if i%j == 0:
+            num += 1
+    if num ==2:
+        return True
+    return False
+
+def solution(numbers):
+    answer = []
+    from itertools import permutations as pm
+    mypm = set([int("".join(item)) for i in range(len(numbers)) for item in set(pm(list(numbers), i+1))])
+    for i in mypm:
+        answer.append(is_prime(i))
+    return answer.count(True)
+
+solution("17")
+
+# 완전탐색 : 2부터 시작하는 연속된 자연수를 미리 써 두고, 처음 나타나는 수의 배수들을 모두 지우는 식으로 소수를 남기는 방식인 에라토스테네스의 체를 이용
+from itertools import permutations
+
+def solution(numbers):
+    answer = set()
+    maximum = 10000000
+    prime_lst = [False, False] + [True] * maximum   # 앞에 [False, False]는 0,1에 대한 것
+    for idx, num in enumerate(prime_lst):
+        if num:
+            k = idx*2
+            while k<=maximum:
+                prime_lst[k] = False
+                k+=idx
+        for i in range(1,len(numbers)+1):
+            perm = permutations(list(numbers),i)
+            for i in list(perm):
+                num = int("".join(list(i)))
+                if prime_lst[num]:      # True 라면
+                    answer.add(num)
+        return len(answer)
+solution("17")
+
+a = ['04','2','40404','40','009']
+print([s.lstrip("0") for s in a])
+
+################################################ H-Index #################################################
+
+def solution(c):
+    for i, x in enumerate(sorted(c)):
+        if x>=len(c)-i:
+            return len(c)-i      # return len(c)-i 가 일어난다면, 프로그램은 끝남
+    return 0                     # 모든 for/if 구문이 끝나도 해당이 없다면, 0을 뱉어라
+                                    # (loop 바깥으로 return 이 있다는건, 루프에 해당없다면 이 값을 뱉어라 식!
+
+solution([0,1,3,5,6])
+
+################################################ 전화번호 목록 #################################################
+
+def solution(phone_book):
+    phone_book.sort()
+    for i in range(len(phone_book)):
+        for j in range(i+1, len(phone_book)):
+            if phone_book[i] in phone_book[j]:
+                return False
+    return True
+
+solution(['12','123','1235','567','88'])
+######## 참고 풀이 방법 ########
+def solution(ph):
+    ph.sort()
+    for p1, p2 in zip(ph, ph[1:]):          # [1],[2]에 모두 [0]이 포함되어있다해도, [1]만 검사하면 됨 (sort 했기 때문)
+        if p2.startswith(p1):
+            return False
+    return True
+
+solution(['12','123','1235','567','88'])
+
+################################################ 구명보트 #################################################
+# 조건에 보트에 "최대 2명 탑승" (제일 가벼운/무거운 짝짓는 순으로 while 문 돌리기)
+def solution(people, limit):
+    people.sort()
+    count = 0
+    s = 0
+    f = len(people) - 1
+    while s < f:                                    # loop를 만들기 위해 필요한 구문 (for문 같이)
+        if people[s] + people[f] <= limit:
+            count += 1
+            s += 1
+            f -= 1
+        else:
+            f -= 1
+    return len(people) - count
+
+solution([50,50,70,80],100)
+
+################################################ 위장 #################################################
+
+def solution(clothes):
+    from collections import Counter
+    answer = 1
+    c = Counter(x[1] for x in clothes)
+    for v in c.values():
+        answer *= (v+1)
+    answer -= 1
+    return answer
+
+solution([['yellow_hat', 'headgear'], ['blue_sunglasses', 'eyewear'], ['green_turban', 'headgear']])
+
+################################################ 숫자 야구 #################################################
+
+# 완전탐색 : 모든 경우의 수를 따진다
+def solution(baseball):
+    answer=[]
+    for i in range(1,10):
+        for j in range(1,10):
+            for k in range(1,10):
+                if (i==k or i==j or j==k):
+                    pass
+                else:
+                    answer.append(str(i*100+j*10+k))
+    for i in baseball:
+        for j in range(len(answer)):
+            st_cnt=0
+            bl_cnt=0
+            for k in range(3):
+                for l in range(3):
+                    if (answer[j][k]==str(i[0])[l] and k==l):
+                        st_cnt+=1
+                    elif (answer[j][k]==str(i[0])[l] and k!=l):
+                        bl_cnt+=1
+            if st_cnt==int(i[1]) and bl_cnt==int(i[2]):
+                pass
+            else:
+                answer[j]=0                                            # st_cnt/bl_cnt 안맞는건 다 0으로 바꾸고, 나중에 list(set())으로 중복 제거 후, answer에서 0만 없애기
+        answer=list(set(answer))
+        if (0 in answer):
+            answer.remove(0)
+        else:
+            pass
+    return len(answer)
+
+solution([[123, 1, 1], [356, 1, 0], [327, 2, 0], [489, 0, 1]])
+
+################################################ 카펫 #################################################
+
+def solution(brown, red):
+    answer = []
+    for y in range(1,red+1):
+        for x in range(y,red+1):
+            if x*y == red and 2*(x+y)+4 == brown:
+                answer.append(x+2)
+                answer.append(y+2)
+            elif x*y>red:
+                break
+    return answer
+
+solution(10,2)
+
+################################################ 라면공장 #################################################
+
+def solution(stock, dates, supplies, k):
+    answer, start = 0,0
+    plan = []
+    n = len(dates)
+
+    while stock < k:
+
+
+solution(4, [4,10,15],[20,5,10],30)
+
+
+a = [4,7,4,5]
+for i in a:
+    if i == max(a):
+        b = a.pop()
+print(a)
