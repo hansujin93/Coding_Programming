@@ -1,2 +1,4 @@
 # SJ
-Let's practice CODING / PROGRAMMING
+This is my own repository to practice CODING
+
+Let's think logically !
