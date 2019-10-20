@@ -10,7 +10,7 @@ def solution(participant, completion):
     for i, j in zip(participant, completion):
         if i != j:
             return i
-solution(["susie","alan","rory","jack","bob"], ["bob","susie","alan","jack"])
+solution(["susie","aran","rory","jack","bob"], ["bob","susie","aran","jack"])
 
 ################################################ 수포자의 모의고사 ################################################
 
