@@ -1,0 +1,17 @@
+import string
+def func_caesar(s,n):
+    alphabet_lower = list(string.ascii_lowercase)
+    alphabet_upper = list(string.ascii_uppercase)
+    s = list(s)
+    for i, char in enumerate(s):
+        if char in alphabet_lower:
+            position = (alphabet_lower.index(char)+n) % 26    # x,y,z같은 애들 때문에 (%26)
+            s[i] = alphabet_lower[position]
+        elif char in alphabet_upper:
+            position = (alphabet_upper.index(char)+n) % 26
+            s[i] = alphabet_upper[position]
+        else:
+            pass
+    return ''.join(s)
+
+func_caesar("ABz",3)
