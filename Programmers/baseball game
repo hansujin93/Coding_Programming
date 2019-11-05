@@ -1,1 +1,29 @@
-
+def solution(baseball):
+    answer=[]
+    for i in range(1,10):
+        for j in range(1,10):
+            for k in range(1,10):
+                if (i==k or i==j or j==k):
+                    pass
+                else:
+                    answer.append(str(i*100+j*10+k))
+    for i in baseball:
+        for j in range(len(answer)):
+            st_cnt=0
+            bl_cnt=0
+            for k in range(3):
+                for l in range(3):
+                    if (answer[j][k]==str(i[0])[l] and k==l):
+                        st_cnt+=1
+                    elif (answer[j][k]==str(i[0])[l] and k!=l):
+                        bl_cnt+=1
+            if st_cnt==int(i[1]) and bl_cnt==int(i[2]):
+                pass
+            else:
+                answer[j]=0                                       
+        answer=list(set(answer))
+        if (0 in answer):
+            answer.remove(0)
+        else:
+            pass
+    return len(answer)
