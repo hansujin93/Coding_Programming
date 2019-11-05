@@ -1,4 +1,4 @@
-def main_func_stick_1(name):
+def func_stick_1(name):
     import string
     a_u = list(string.ascii_uppercase)
     fa = a_u[0:14]
@@ -10,7 +10,7 @@ def main_func_stick_1(name):
         else:
             cnt += ba.index('Z')-ba.index(char)+1
     return cnt
-main_func_stick_1("JAN")
+func_stick_1("JAN")
 
 
 
@@ -22,7 +22,7 @@ OR
 
 
 
-def main_func_stick_2(name):
+def func_stick_2(name):
     answer = 0
 
     move_list = []
@@ -45,4 +45,4 @@ def main_func_stick_2(name):
 
     return answer
    
-main_func_stick_2("JAN")
+func_stick_2("JAN")
