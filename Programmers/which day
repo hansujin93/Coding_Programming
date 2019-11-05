@@ -1,0 +1,8 @@
+import datetime
+def func_which_day(y,a,b):
+    day = ['FRI', 'SAT', 'SUN', 'MON', 'TUE', 'WED', 'THU']
+    total = (datetime.date(y, a, b) - datetime.date(y, 1, 1)).days
+    w = total%7
+    return day[w]
+
+func_which_day(2016,7,11)
