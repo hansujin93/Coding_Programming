@@ -1,0 +1,15 @@
+def func_howmany_stick(arrangement):
+    stack = []
+    answer = 0
+    arrangement = arrangement.replace("()","L")
+    for idx, c in enumerate(arrangement):
+        if c == "(":
+            stack.append("(")
+            answer += 1
+        elif c == ")":
+            stack.pop()
+        else:
+            answer += len(stack)
+    return answer
+    
+func_howmany_stick("()(((()())(())()))(())")
