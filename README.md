@@ -1,2 +1,2 @@
 # Programming in Python
-This is for my own practice
+This is my own practice
