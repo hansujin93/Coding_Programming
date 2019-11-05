@@ -1,2 +1,2 @@
-# Coding practice
-My coding practice in # Python # R
+# Coding / Programming practice
+in # Python # R
