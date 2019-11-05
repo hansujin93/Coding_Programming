@@ -3,8 +3,8 @@ def func_printer(priorities, location):
     waiting_list = []
 
     while pi_list:
-        pi = pi_list.pop(0)    # 그냥 pi_list.pop() 하면 마지막부터 빠져나옴 (스택)
-        priority = pi[0]   # 첫번째 뺴낸 값에서의 우선순위
+        pi = pi_list.pop(0)   
+        priority = pi[0] 
         ram_p_list = [priority for priority, idx in pi_list]
         if ram_p_list:
             max_p = max(ram_p_list)
