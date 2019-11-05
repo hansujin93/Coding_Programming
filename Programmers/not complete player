@@ -1,0 +1,10 @@
+def func_not_complete(participant, completion):
+    completion.append('{')
+
+    participant.sort()
+    completion.sort()
+
+    for i, j in zip(participant, completion):
+        if i != j:
+            return i
+func_not_complete(["A","B","C","D","E"], ["B","E","A","D])
