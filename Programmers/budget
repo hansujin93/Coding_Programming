@@ -1,0 +1,13 @@
+def func_budget(d, b):
+    answer = 0
+    sum = 0
+    d.sort()
+    for i in range(0,len(d)):
+        sum += d[i]
+        if sum > b:
+            break
+        else:
+            answer += 1
+    return answer
+
+func_budget([2,2,3,3],10)
