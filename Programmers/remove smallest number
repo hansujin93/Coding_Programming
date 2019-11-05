@@ -1,0 +1,11 @@
+def smallest(n):
+    n_new = sorted(n)
+    return n_new[0]
+
+def main_remove_smallest(n):
+    if len(n)>1:
+        n.remove(smallest(n))
+        return n
+    return [-1]
+    
+main_remove_smallest([10,3,2,1])
