@@ -1,4 +1,2 @@
-# SJ
-This is my own repository to practice CODING in python.
-
-Let's think logically !
+# Coding practice
+My coding practice in # Python # R
