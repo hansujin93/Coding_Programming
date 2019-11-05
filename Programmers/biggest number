@@ -1,4 +1,4 @@
-def func_biggest_num(number, k):
+def func_biggest_num_1(number, k):
     answer = ""
     need = len(number)-k
     m = -1
@@ -10,4 +10,23 @@ def func_biggest_num(number, k):
                 break
     return answer
 
-func_biggest_num("1924", 2)
+func_biggest_num_1("1924", 2)
+
+
+
+
+
+OR 
+
+
+
+
+
+def func_biggest_num_2(number, K):
+    import itertools
+    answer = ""
+    number_list = [i for i in number]
+    answer += max(i for i in list(map(''.join, itertools.combinations(number_list, len(number_list)-K))))
+    return answer
+    
+func_biggest_num_2("1924", 2)
