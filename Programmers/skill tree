@@ -1,0 +1,14 @@
+def func_skill_tree(skill, skill_trees):
+    answer = 0
+    for str in skill_trees:
+        temp = ""                    
+        for s in str:
+            if skill.find(s) != -1:  
+                temp += s                
+        if skill[:len(temp)] == temp:
+            answer +=1
+        else:
+            pass
+    return answer
+
+func_skill_tree("CBD", ["CBEFGD", "CPOB", "CPH", "BDQS"])
