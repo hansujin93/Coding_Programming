@@ -1,0 +1,20 @@
+def func_printer(priorities, location):
+    pi_list = [(p,i) for i,p in enumerate(priorities)]
+    waiting_list = []
+
+    while pi_list:
+        pi = pi_list.pop(0)    # 그냥 pi_list.pop() 하면 마지막부터 빠져나옴 (스택)
+        priority = pi[0]   # 첫번째 뺴낸 값에서의 우선순위
+        ram_p_list = [priority for priority, idx in pi_list]
+        if ram_p_list:
+            max_p = max(ram_p_list)
+
+            if priority >= max_p:
+                waiting_list.append(pi)
+            else:
+                pi_list.append(pi)
+
+    for index, item in enumerate(waiting_list):
+        if item[1] == location:
+            return index+1
+func_printer([2, 1, 3, 2],3)
