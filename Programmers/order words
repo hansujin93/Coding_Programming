@@ -1,0 +1,5 @@
+def func_order_word(strings, n):
+    return sorted(sorted(strings), key=lambda x:x[n])      # 먼저 strings를 정렬 > 그 다음 n번째 단어에 맞춰서 다시 재정렬
+
+
+func_order_word(["abzcd","cdzab","abzfg","abzaa","abzbb","bbzaa"], 2)
