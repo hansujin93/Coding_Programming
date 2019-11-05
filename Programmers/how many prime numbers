@@ -30,7 +30,7 @@ OR
 def main_func_howmany_prime_2(numbers):
     answer = set()
     maximum = 10000000
-    prime_lst = [False, False] + [True] * maximum   # 앞에 [False, False]는 0,1에 대한 것
+    prime_lst = [False, False] + [True] * maximum   
     for idx, num in enumerate(prime_lst):
         if num:
             k = idx*2
