@@ -1,0 +1,13 @@
+def func_order_desc(s):
+    U = []
+    L = []
+    for letter in s:
+        if letter.isupper() == True:
+            U.append(letter)
+            U.sort(reverse=True)
+        else:
+            L.append(letter)
+            L.sort(reverse=True)
+    return ''.join(L+U)
+
+func_order_desc("rgbnDDAcC")
