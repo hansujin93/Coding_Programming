@@ -1,0 +1,13 @@
+def func_biggest_num(number, k):
+    answer = ""
+    need = len(number)-k
+    m = -1
+    for i in reversed(range(need)):
+        for idx in range(m+1, len(number)-i):
+            if max(number[m+1:len(number)-i]) == number[idx]:
+                answer += number[idx]
+                m = idx
+                break
+    return answer
+
+func_biggest_num("1924", 2)
