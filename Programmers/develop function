@@ -1,0 +1,19 @@
+from collections import Counter
+def func_develop(prog, speed):
+    answer = []
+    ans_list = []
+    for i in range(len(prog)):
+        if (100-prog[i])%speed[i] == 0:
+            ans_list.append((100-prog[i])//speed[i])
+        else:
+            ans_list.append((100-prog[i])//speed[i] + 1)
+    for ii in range(1,len(ans_list)):
+        if ans_list[ii]<ans_list[ii-1]:
+            ans_list[ii] = ans_list[ii-1]
+        else:
+            pass
+    for index in Counter(ans_list).values():
+        answer.append(index)
+    return answer
+
+func_develop([93,30,55],[1,30,5])
