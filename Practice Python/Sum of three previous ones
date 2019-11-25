@@ -1,0 +1,32 @@
+# the sequence resets every time the resulting number is lower than -150
+
+# 1. Iterative function
+def iterative_func(x):
+    i = 1
+    c_list = []
+    for k in range(x):
+        if k <= 2:
+            c_list.append(-k)             
+        elif c_list[k-1]+c_list[k-2]+c_list[k-3] < -150:
+            c_list.append(i+10)
+            i += 1
+        else:
+            c_list.append(c_list[k-1]+c_list[k-2]+c_list[k-3])
+    return c_list
+    
+ 
+# 2. Recursive function
+def recursive_func(x, reset_cnt, init_list):
+    if x > 0:
+        a = init_list[-1]
+        b = init_list[-2]
+        c = init_list[-3]
+        d = a + b + c
+        if d < -150 :
+            reset_cnt += 1
+            d = reset_cnt
+        init_list.append(d)
+        recursive_func(x-1, reset_cnt, init_list)
+        return init_list[:-3]
+    else:
+        pass
