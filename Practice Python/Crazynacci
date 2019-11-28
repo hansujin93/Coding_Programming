@@ -1,0 +1,12 @@
+def iterative_func(x):
+    i = 1
+    c_list = []
+    for k in range(x):
+        if k <= 2:
+            c_list.append(-k)             
+        elif c_list[k-1]+c_list[k-2]+c_list[k-3] < -150:
+            c_list.append(i+10)
+            i += 1
+        else:
+            c_list.append(c_list[k-1]+c_list[k-2]+c_list[k-3])
+    return c_list
