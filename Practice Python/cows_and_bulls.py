@@ -6,8 +6,8 @@ while guess != num:
     guess = input("Guess Number for Cows and Bulls")
     for i in range(len(num)):
         for j in range(len(guess)):
-            if guess[j] == num[i] and j == i:                       # 애초에 num 자체가 중복없는 digits들로만 구성되어야함
-                cows += 1                                           # integer는 len가 없음 (그래서 num도 str으로 바꿔줌)
+            if guess[j] == num[i] and j == i:                      
+                cows += 1                                           
             elif guess[j] == num[i] and j != i:
                 bulls += 1
             else:
